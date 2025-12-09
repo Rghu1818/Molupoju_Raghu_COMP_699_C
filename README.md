@@ -1,128 +1,84 @@
-# Content Virality Platform
+# Big Data Analytics Platform (Streamlit)
 
-A comprehensive web-based analytics system built with Python and Streamlit that provides content virality prediction, topic analysis, and administrative management capabilities.
+A Streamlit-only, multipage Big Data Analytics platform for live data integration, processing, alerting, and interactive visualization with **AI-powered insights using Google Gemini**. Includes 9 major use cases:
 
-## Key Features
+1) User Authentication
+2) Manage Data Sources
+3) Ingestion Pipeline Monitoring
+4) Processing & Anomaly Detection
+5) Interactive Dashboards (Charts, Graphs, Heatmaps)
+6) Real-time Alerts
+7) Ad-hoc Query Execution (with Natural Language to SQL)
+8) Admin & User Management
+9) **🤖 AI Assistant** - Natural language queries, data insights, and intelligent analysis
 
-### 🔐 Multi-User Authentication System
+## Quick Start (Windows)
 
-- **User Registration & Login**: Secure account creation and authentication
-- **Role-Based Access Control**: System Administrators, Content Strategists, Users, and Viewers
-- **Profile Management**: Users can update their personal information and change passwords
-- **Session Management**: Secure session handling with automatic timeout
+1. Create and activate a virtual environment (recommended).
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. **Configure Gemini AI** (optional but recommended):
+   - Get a free API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
+   - Update `GEMINI_API_KEY` in `core/config.py`
+   - See [GEMINI_SETUP.md](GEMINI_SETUP.md) for detailed instructions
+4. Run the app:
+   ```bash
+   streamlit run streamlit_app.py
+   ```
 
-### 📊 Analytics & Predictions
-
-- **Virality Scoring**: AI-powered headline analysis with trend relevance scoring
-- **Topic Explorer**: Search and analyze Reddit content with interactive visualizations
-- **Dashboard**: Real-time trending topics with filtering and sorting capabilities
-- **Data Export**: CSV and PDF export functionality for reports and analysis
-
-### ⚙️ Administrative Features
-
-- **User Management**: Activate/deactivate accounts and assign roles
-- **Data Source Management**: Configure and monitor external data sources
-- **ML Model Management**: Model versioning, performance monitoring, and retraining
-- **Activity Logging**: Comprehensive audit trails for all system actions
-- **System Monitoring**: Real-time system health and performance metrics
-
-## Tech Stack
-
-- Python 3.10+
-- Streamlit for UI
-- scikit-learn (initial modeling baseline)
-- pandas, numpy for data
-- plotly/altair/matplotlib for visualization
-- Optional: PRAW/Pushshift/Reddit API, requests/bs4 for scraping
+The app uses Streamlit's pages system. The main entry is `streamlit_app.py` and feature pages live in `pages/`.
 
 ## Project Structure
 
-```
-.
-├─ README.md
-├─ requirements.txt
-├─ .streamlit/
-│  └─ config.toml
-└─ src/
-   ├─ app.py                       # Streamlit entry point (today's focus: UI)
-   ├─ ui/
-   │  ├─ __init__.py
-   │  └─ components.py             # Reusable UI components
-   ├─ data/
-   │  ├─ __init__.py
-   │  ├─ scraping/
-   │  │  └─ reddit_scraper.py      # Reddit scraping service (stub)
-   │  └─ processing/
-   │     └─ preprocess.py          # Cleaning & feature engineering (stub)
-   ├─ models/
-   │  ├─ __init__.py
-   │  ├─ virality_predictor.py     # Model APIs (stub)
-   │  └─ topic_model.py            # Topic modeling APIs (stub)
-   ├─ services/
-   │  ├─ __init__.py
-   │  ├─ config.py                 # Centralized settings
-   │  └─ cache.py                  # Caching layer (stub)
-   └─ utils/
-      ├─ __init__.py
-      └─ logger.py                 # Structured logging
-```
+- streamlit_app.py
+- core/
+  - __init__.py
+  - config.py
+  - auth.py
+  - data_sources.py
+  - ingestion.py
+  - processing.py
+  - storage.py
+  - alerts.py
+  - visualization.py
+- pages/
+  - 1_🧭_Home.py
+  - 2_🔌_Data_Sources.py
+  - 3_📥_Pipelines.py
+  - 4_⚙️_Processing.py
+  - 5_📊_Dashboards.py
+  - 6_🚨_Alerts.py
+  - 7_🔎_AdHoc_Query.py
+  - 8_👤_Admin.py
+  - 9_📄_About.py
+- data/
+  - (SQLite DB and cached files created at runtime)
+- requirements.txt
+- README.md
 
-## Getting Started
+## AI Features
 
-### 1. Install Dependencies
+With Gemini AI configured, you get:
 
-Create a virtual environment and install dependencies:
+- **Natural Language to SQL**: Ask questions in plain English, get SQL queries automatically
+- **Anomaly Explanations**: AI explains detected anomalies and suggests causes
+- **Data Insights**: Automatic pattern detection and trend analysis
+- **Alert Suggestions**: AI recommends optimal alert rules for your data
+- **Interactive Chat**: Chat with AI about your data and get instant answers
 
-```bash
-python -m venv .venv
-.venv\Scripts\activate  # On Windows
-# or
-source .venv/bin/activate  # On macOS/Linux
+## Notes
 
-pip install -r requirements.txt
-pip install -r requirements-nlp.txt
-```
+- **Gemini API key recommended** for AI features. Get one free at [Google AI Studio](https://makersuite.google.com/app/apikey)
+- A public endpoint (CoinGecko) is used for demo financial data; if it rate-limits, the app falls back to synthetic data.
+- Data is stored in a local SQLite database under `data/platform.db`.
+- Authentication is a simple local username/password demo (not production-grade).
+- Alerts support webhook and SMTP notifications.
 
-### 2. Initialize Database
+## Extending
 
-Set up the database with default roles and admin user:
-
-```bash
-python init_db.py
-```
-
-This creates:
-
-- Database tables for users, roles, data sources, and models
-- Default roles (System Administrator, Content Strategist, User, Viewer)
-- Admin user with credentials: `admin` / `admin123`
-- strategist credentials: ``strategist / strategist123``
-- viewer credentials: ``viewer / viewer123``
-
-### 3. Run the Application
-
-```bash
-cd src
-streamlit run app.py
-```
-
-### 4. Access the Platform
-
-Open your browser and go to `http://localhost:8501` (or the URL shown in terminal).
-
-**Default Login:**
-
-- Username: `admin`
-- Password: `admin123`
-
-⚠️ **Important**: Change the default admin password after first login!
-
-## Configuration
-
-- UI/theme config lives in `.streamlit/config.toml`.
-- App settings and constants in `src/services/config.py`.
-
-## Development Notes
-
-- Today’s milestone focuses on a polished Streamlit UI, wired to mock data so the app is immediately runnable.
-- Modeling, scraping, and pipelines are stubbed for fast iteration in the coming days.
+- Replace/extend `core/data_sources.py` with real connectors.
+- Enhance `core/alerts.py` with email/SMS/webhook integrations.
+- Add RBAC and persisted users in `core/auth.py`.
+- Scale storage (Postgres, data lake) replacing `core/storage.py` logic.

@@ -1,0 +1,2 @@
+2025-09-29 14:24:12,535 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api.coingecko.com:443
+2025-09-29 14:24:14,288 - urllib3.connectionpool - DEBUG - https://api.coingecko.com:443 "GET /api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=3&interval=hourly HTTP/1.1" 401 None
